@@ -13,9 +13,9 @@ int main(int argc, char **argv) {
 
   try {
     pqxx::connection conn(
-      "host=dev2.db.pdl.cmu.local port=5432 user=postgres sslmode=disable"
+      "host=dev3.db.pdl.cmu.local port=5431 user=postgres sslmode=disable"
     );
-    printf("Connected to %s\n", conn.dbname());
+    printf("Peloton: Connected to %s\n", conn.dbname());
 
     if (config.program_type_ == ProgramType::POPULATE) {
       // populate table

@@ -18,13 +18,19 @@ void Populate(pqxx::connection &conn, const DriverConfig &config) {
 
   txn.exec("DROP TABLE IF EXISTS employee;");
   txn.exec("CREATE TABLE employee(id INT, name VARCHAR(100));");
+
+  // std::cout << "before create index" << std::endl;
   
   if (config.with_index_ == true) {
+    // std::cout << "in create index" << std::endl;
     txn.exec("CREATE INDEX emp_index ON employee(id)");
   }
 
+  // std::cout << "after create index" << std::endl;
+
   for (size_t i = 0; i < table_size; ++i) {
     txn.exec("INSERT INTO employee VALUES (" + std::to_string(i) + ", 'a');");
+    // std::cout << "after insert " <<  std::to_string(i) << std::endl;
   }
   txn.commit();
 }
