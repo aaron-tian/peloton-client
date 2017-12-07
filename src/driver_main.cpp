@@ -17,14 +17,21 @@ int main(int argc, char **argv) {
     );
     printf("Peloton: Connected to %s\n", conn.dbname());
 
+    if (aa_IsProfiling() == true) {
+      aa_InsertTimePoint((char *)"driver_begin driver_main");
+    } else {
+      aa_BeginProfiling();
+      aa_InsertTimePoint((char *)"driver_begin driver_main");
+    }
+
     if (config.program_type_ == ProgramType::POPULATE) {
       // populate table
       Populate(conn, config);
-    
+
     } else if (config.program_type_ == ProgramType::CLIENT) {
       // process transactions via client interface
       ProcessClient(conn, config);
-    
+
     } else if (config.program_type_ == ProgramType::PROCEDURE) {
       // process transactions via stored procedure
       ProcessProcedure(conn, config);
@@ -32,11 +39,14 @@ int main(int argc, char **argv) {
     } else if (config.program_type_ == ProgramType::SCAN) {
       // scan table
       Scan(conn);
-    
+
     } else {
       exit(EXIT_FAILURE);
     }
-    
+
+    aa_InsertTimePoint((char *)"driver_end driver_main");
+    aa_EndProfiling();
+
   } catch (const std::exception &e) {
     printf("Exception occurred: %s\n", e.what());
     exit(EXIT_FAILURE);
