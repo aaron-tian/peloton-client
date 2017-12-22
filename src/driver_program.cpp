@@ -46,7 +46,7 @@ void aa_EndProfiling() {
 
   // if (aa_total_count_ % 500 == 0) {
   char buf[100];
-  sprintf(buf, "/home/aarontian/peloton/profile_%ld.txt", aa_begin_time_.tv_sec);
+  sprintf(buf, "/home/aarontian/peloton/profile_txt/profile_%ld.txt", aa_begin_time_.tv_sec);
   FILE *fp = fopen(buf, "a");
 
 
